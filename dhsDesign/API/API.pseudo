@@ -1,0 +1,271 @@
+
+
+      dhsSysOpen (long *status, char *response, int numNodes)
+     dhsSysClose (long *status, char *response, dhsHandle dhsID
+
+
+  dhsOpenConnect (long *status, char *response, dhsHandle *dhsID,
+                    unsigned long whoAmI, struct fpConfig *pxlConfig)
+ dhsCloseConnect (long *status, char *response, dhsHandle dhsID)
+
+      dhsOpenExp (long *status, char *response, dhsHandle *dhsID,
+            	    struct fpConfig *pxlConfig, double *expID, char *obsSetID)
+     dhsCloseExp (long *status, char *response, dhsHandle dhsID, double expID)
+
+dhsSendPixelData (long *status, char *response, dhsHandle dhsID, 
+                  void *pxlAddr, size_t blkSize, struct fpConfig *pxlDescr,
+                  double *expID, char *obsSetID)
+
+ dhsSendMetaData (long *status, char *response, dhsHandle dhsID,
+                      void *blkAddr, size_t blkSize, struct mdConfig *mdDescr,
+                      double *expID, char *obsSetID)
+
+        dhsIOCtl (long *status, char *response, dhsHandle dhsID,
+		     ulong ioCtlFunc, char *ObsID, double *expID, ...)
+
+
+
+Low-Level Private Procedures
+
+
+      dcaInitChannel  (dhsID, type)
+
+      dcaOpenChannel  (chan)
+     dcaCloseChannel  (chan)
+
+
+  dcaValidateChannel  (chan)
+
+     dcaRefreshState  (chan)
+
+	      dcaSet  (chan, option, value)
+      value = dcaGet  (chan, option)
+
+     msg = dcaFmtMsg  (type, whoami [, addr, size ] )
+
+   stat = dcaSendMsg  (chan, msg)
+  nread = dcaReadMsg  (chan, client_data)
+
+	     dcaSend  (chan, buf, size)
+	     dcaRecv  (chan, buf, size)
+
+
+Utility Procedures/Macros:
+
+
+
+-------------------------------------------------------------------------------
+PseudoCode:
+-------------------------------------------------------------------------------
+
+
+typedef struct {
+
+    double expID			/* exposure ID			*/
+    char *obsSetID			/* observation set ID		*/
+
+} dhsData, *dhsDataPtr;
+
+dhsDataPtr	dhs;			/* global state struct		*/
+
+
+
+
+dhsSysOpen (long *status, char *response, dhsHandle *dhsID, ulong whoami) {
+    ...std status/param/input checks
+
+    allocate and initialize DHS client code (e.g. Super struct)
+
+    /* Initialize a channel to the DHS Supervisor */
+    if (dcaInitChannel (dhsID, DHS_SUPERVISOR) == ERR)
+	set error return, can't connect to super
+
+    /* Send a SYS_OPEN message to the super*/
+    dcaSendMsg (dhsID->super, dcaFmtMsg (DCA_SYS|DCA_OPEN, whoami))
+
+    /* request updated state parameters from supervisor */
+    dcaRefreshState (dhsID->super)
+
+    ...std return
+}
+
+
+dhsOpenConnect (long *status, char *response, dhsHandle *dhsID,
+                    unsigned long whoAmI, struct fpConfig *pxlConfig)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor, if down try to reconnect.
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+        if (dcaInitChannel (dhsID, DHS_SUPERVISOR) == ERR)
+	    set error return, can't connect to super
+
+    /* Send a SET_FOCAL_PLANE message to the super */
+    msg = dcaFmtMsg (DCA_SET|DCA_FPCONFIG, whoami, pxlConfig, sizeof(pxlConfig))
+    dcaSendMsg (dhsID->super, msg)
+
+
+    /* Loop MAXTRY times until we get a valid collector connection */
+    for (i = 0; i < MAXTRYS; i++) {
+      if (dcaInitChannel (dhsID, DHS_COLLECTOR) == OK) {
+	/* Send an INIT to the collector. */
+        dcaSendMsg (dhsID->collector, dcaFmtMsg (DCA_INIT, whoAmI))
+	return DCA_OK
+
+      } else 
+        dcaSendMsg (dhsID->super, dcaFmtMsg (DCA_FAIL|CONNECT, whoAmI))
+
+    }
+
+    ...std return (ERR, "no collector")
+}
+
+
+dhsOpenExp (long *status, char *response, dhsHandle *dhsID,
+            	    struct fpConfig *pxlConfig, double *expID, char *obsSetID)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+	set error return, can't write to super
+
+
+    format a SET_FPCONFIG message
+    send mdConfig to the supervisor
+
+    format a SET_EXPID message
+    send expID to the supervisor
+
+    format a SET_OBSSETID message
+    send obsSetID to the supervisor
+
+    format a OPEN_EXP message
+    send it to the supervisor
+
+    ...std return
+}
+
+
+dhsSendPixelData (long *status, char *response, dhsHandle dhsID, 
+                  void *pxlAddr, size_t blkSize, struct fpConfig *pxlDescr,
+                  double *expID, char *obsSetID)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+	set error return, can't write to super
+
+
+    format a SET_FPCONFIG message
+    send mdConfig to the supervisor
+
+    format a SET_EXPID message
+    send expID to the supervisor
+
+    format a SET_OBSSETID message
+    send obsSetID to the supervisor
+
+    format a WRITE_PIXEL message
+    send blkAddr to the collector
+
+    ...std return
+}
+
+
+dhsSendMetaData (long *status, char *response, dhsHandle dhsID,
+                      void *blkAddr, size_t blkSize, struct mdConfig *mdDescr,
+                      double *expID, char *obsSetID)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+	set error return, can't write to super
+
+    format a SET_MDCONFIG message
+    send mdConfig to the supervisor
+
+    format a SET_EXPID message
+    send expID to the supervisor
+
+    format a SET_OBSSETID message
+    send obsSetID to the supervisor
+
+    format a WRITE_META message
+    send blkAddr to the collector
+
+    ...std return
+}
+
+
+
+
+dhsSysClose (long *status, char *response, dhsHandle dhsID)
+{
+    ...std status/param/input checks
+
+    close collector channel
+
+    format and send a SYS_CLOSE message
+    close supervisor channel
+
+    free the struct
+
+    ...std return
+}
+
+
+dhsCloseExp (long *status, char *response, dhsHandle dhsID, double expID)
+{
+    ...std status/param/input checks
+
+    ...std return
+}
+
+
+dhsCloseConnect (long *status, char *response, dhsHandle dhsID)
+{
+    ...std status/param/input checks
+
+    ...std return
+}
+
+
+
+-------------------------------------------------------------------------------
+
+
+
+typedef long dhsHandle;
+
+/* Focal-Plane configuration structure.
+ */
+typedef struct fpConfig_str { 
+   ulong  xSize;   	/* size of a row on the focal plane (i.e. ncols)     */
+   ulong  ySize;   	/* size of a column on the focal plane (i.e. oows)   */
+   ulong  xStart;       /* (0-indexed?) first X pixel in this part of plane  */
+   ulong  yStart;       /* (0-indexed?) first Y pixel in this part of plane  */
+   long   dataType;     /* data type of the pixels (number of bytes)         */
+
+ } fpConfig_t, *fpConfig_p, **fpConfig_s;
+
+
+/* Meta-Data configuration structure.
+ */
+typedef struct mdConfig_str { 
+   ulong metaType;                 /* conceptual type of the meta data */
+   ulong numFields;                /* number of fields in the meta data array */
+   ulong fieldSize[DHS_MAXFIELDS]; /* number of items in the field */
+   ulong dataType[DHS_MAXFIELDS];  /* data type of the values in the field */
+ } mdConfig_t, *mdConfig_p, **mdConfig_s;
+
+
+--------------------------------------------------------------------------------
+
+

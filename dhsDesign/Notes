@@ -1,0 +1,485 @@
+
+
+      dhsSysOpen (long *status, char *response, int numNodes)
+     dhsSysClose (long *status, char *response, dhsHandle dhsID
+
+
+  dhsOpenConnect (long *status, char *response, dhsHandle *dhsID,
+                    unsigned long whoAmI, struct fpConfig *pxlConfig)
+ dhsCloseConnect (long *status, char *response, dhsHandle dhsID)
+
+      dhsOpenExp (long *status, char *response, dhsHandle *dhsID,
+            	    struct fpConfig *pxlConfig, double *expID, char *obsSetID)
+     dhsCloseExp (long *status, char *response, dhsHandle dhsID, double expID)
+
+dhsSendPixelData (long *status, char *response, dhsHandle dhsID, 
+                  void *pxlAddr, size_t blkSize, struct fpConfig *pxlDescr,
+                  double *expID, char *obsSetID)
+
+ dhsSendMetaData (long *status, char *response, dhsHandle dhsID,
+                      void *blkAddr, size_t blkSize, struct mdConfig *mdDescr,
+                      double *expID, char *obsSetID)
+
+        dhsIOCtl (long *status, char *response, dhsHandle dhsID,
+		     ulong ioCtlFunc, char *ObsID, double *expID, ...)
+
+
+
+Low-Level Private Procedures
+
+
+      dcaInitChannel  (dhsID, type)
+          dcaConnect  (dhsID, devstr)
+
+      dcaOpenChannel  (chan)
+  dcaValidateChannel  (chan)
+     dcaCloseChannel  (chan)
+
+	      dcaSet  (dhsID, option, value)
+      value = dcaGet  (dhsID, option)
+
+     msg = dcaFmtMsg  (msgtype, whoami, addr, size)
+          dcaSendMsg  (dhsID, msg)
+	  dcaReadMsg  (dhsID, client_data)
+
+	     dcaSend  (dhsID, buf, size)
+	     dcaRecv  (dhsID, buf, size)
+
+
+Utility Procedures/Macros:
+
+  	 fd = DCS_FD (dhsID)		DCS => Data Capture Supervisor
+         fd = DCC_FD (dhsID)		DCC => Data Capture Collector
+
+
+
+-------------------------------------------------------------------------------
+PseudoCode:
+-------------------------------------------------------------------------------
+
+dhsSysOpen (long *status, char *response, dhsHandle *dhsID, ulong whoami) {
+    ...std status/param/input checks
+
+    allocate and initialize DHS client code
+
+    /* Initialize a channel to the DHS Supervisor */
+    dcaInitChannel (dhsID, DHS_SUPERVISOR)
+
+    format a SYS_OPEN message
+    send it to the supervisor
+
+    request state parameters from supervisor
+    read result and update structure
+
+    ...std return
+}
+
+
+dhsOpenConnect (long *status, char *response, dhsHandle *dhsID,
+                    unsigned long whoAmI, struct fpConfig *pxlConfig)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+	set error return, can't write to super
+
+    format a SET_FOCAL_PLANE message
+    send pxlConfig to the supervisor
+
+    /* Loop MAXTRY times until we get a valid collector connection */
+    for (failcount=0; failcount < MAXTRYS; failcount++) {
+        format a REQ_COLLECTOR message, or'd w/ failcount for super
+        send it to the supervisor
+        if (dcaReadMsg (dhsID->super, &device) == ERR)
+	    set error return, can't read from super
+
+        if (dcaConnect (device) == OK) {
+    	    format an INIT_COLLECTOR message
+    	    if (send it to the collector == OK) {
+    		...std return (OK)
+	    } else {
+        	format a COLLECTOR_FAILED message
+        	send it to the supervisor
+	    }
+	}
+    }
+
+    ...std return (ERR, "no collector")
+}
+
+
+dhsOpenExp (long *status, char *response, dhsHandle *dhsID,
+            	    struct fpConfig *pxlConfig, double *expID, char *obsSetID)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+	set error return, can't write to super
+
+
+    format a SET_FPCONFIG message
+    send mdConfig to the supervisor
+
+    format a SET_EXPID message
+    send expID to the supervisor
+
+    format a SET_OBSSETID message
+    send obsSetID to the supervisor
+
+    format a OPEN_EXP message
+    send it to the supervisor
+
+    ...std return
+}
+
+
+dhsSendPixelData (long *status, char *response, dhsHandle dhsID, 
+                  void *pxlAddr, size_t blkSize, struct fpConfig *pxlDescr,
+                  double *expID, char *obsSetID)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+	set error return, can't write to super
+
+
+    format a SET_FPCONFIG message
+    send mdConfig to the supervisor
+
+    format a SET_EXPID message
+    send expID to the supervisor
+
+    format a SET_OBSSETID message
+    send obsSetID to the supervisor
+
+    format a WRITE_PIXEL message
+    send blkAddr to the collector
+
+    ...std return
+}
+
+
+dhsSendMetaData (long *status, char *response, dhsHandle dhsID,
+                      void *blkAddr, size_t blkSize, struct mdConfig *mdDescr,
+                      double *expID, char *obsSetID)
+{
+    ...std status/param/input checks
+
+    /* Validate the connection to supervisor
+     */
+    if (dcaValidateChannel (dhsID->super) == ERR)
+	set error return, can't write to super
+
+    format a SET_MDCONFIG message
+    send mdConfig to the supervisor
+
+    format a SET_EXPID message
+    send expID to the supervisor
+
+    format a SET_OBSSETID message
+    send obsSetID to the supervisor
+
+    format a WRITE_META message
+    send blkAddr to the collector
+
+    ...std return
+}
+
+
+
+
+dhsSysClose (long *status, char *response, dhsHandle dhsID)
+{
+    ...std status/param/input checks
+
+    close collector channel
+
+    format and send a SYS_CLOSE message
+    close supervisor channel
+
+    free the struct
+
+    ...std return
+}
+
+
+dhsCloseExp (long *status, char *response, dhsHandle dhsID, double expID)
+{
+    ...std status/param/input checks
+
+    ...std return
+}
+
+
+dhsCloseConnect (long *status, char *response, dhsHandle dhsID)
+{
+    ...std status/param/input checks
+
+    ...std return
+}
+
+
+
+-------------------------------------------------------------------------------
+
+
+struct dhsID {
+  struct dhsChan  *super;
+  struct dhsChan  *collector;
+}
+
+struct dhsChan {
+    int	  fd;		/* socket descriptor for connection	  */
+
+    char *node;		/* node where DCA object is running	  */
+    int   port;		/* port on node for DCA object	  	  */
+    char *device;	/* the 'node:port' string		  */
+
+    int   nerrs;	/* error count on channel		  */
+    int   nresends;	/* packet resend count on channel	  */
+    int   retries	/* needed at all??			  */
+    int   timeout	/* needed at all??			  */
+
+    int   connected;	/* connection status flag         	  */
+};
+
+
+struct msgHeader {
+    long type,		/* message type, e.g. DCA_OPEN|DCA_SYS	  */
+    long whoami;	/* sender of data			  */
+
+    long expnum;	/* "exposure number" to which msg belongs */
+    long obset;		/* "observation set" to which msg belongs */
+
+    long retry;		/* retry count for this message	  	  */
+    long nbytes;	/* number of bytes of data following msg  */
+    long checksum;	/* MD5 sum of data (for meta/pixel only)  */
+}
+
+#define DCA_OPEN	000001	/* Open something		*/
+#define DCA_CLOSE	000002	/* Close something		*/
+#define DCA_READ	000004	/* Read something		*/
+#define DCA_WRITE	000010	/* Write something		*/
+#define DCA_SET		000020	/* Set something		*/
+#define DCA_GET		000040	/* Get something		*/
+
+#define DCA_SYS		000100	/* DHS System			*/
+#define DCA_CONNECT	000200	/* Connection to DHS collector	*/
+#define DCA_EXP		000400	/* Single Exposure		*/
+#define DCA_META	001000	/* Meta Data 			*/
+#define DCA_PIXEL	002000	/* Pixel data			*/
+
+
+/* Set/Get options. */
+#define DCA_NOOP		/* NO-OP, used to request an ACK             */
+#define DCA_IO_MODE		/* operational mode (live, simulation, etc)  */
+#define DCA_IO_METHOD		/* communications method 		     */	
+#define DCA_IO_SIZE		/* communications 'packet' size		     */	
+#define DCA_CHECKSUM		/* compute checksum data for I/O? (boolean)  */ 
+#define DCA_NCLIENTS		/* no. of clients connected to Supervisor    */
+#define DCA_NCOLLECTORS		/* no. of collectors in use by Supervisor    */
+
+#define	DCA_OBS_CONFIG		/* observation set config structure          */
+#define	DCA_FP_CONFIG		/* focal plane config structure              */
+#define	DCA_MD_CONFIG		/* metadata config structure                 */
+#define	DCA_EXPID		/* exposure ID				     */
+#define	DCA_OBSID		/* obs set ID				     */
+
+#define DCA_DEBUG_LEVEL		/* debug level 				     */
+
+/* Set/Get values. */
+#define DCA_CAPTURE		/* I/O modes */
+#define DCA_SIMULATION
+#define DCA_DEBUG
+
+#define DCA_FAST		/* I/O methods */
+#define DCA_RELIABLE
+
+#define DCA_SUPER		/* type of dhsID channel */
+#define DCA_COLLECTOR
+
+
+
+Communication w/ Supervisor:
+    - All messages send std msgHeader to define the type of message and
+	operation requested
+    - Breaking out DCA_SYS, DCA_SET, etc as bitflags allows us to send a
+	more targeted message, e.g. DCA_SET|DCA_FP_CONFIG to send the
+	focal-plane config structure as data following the header rather
+	encode it.
+    - dcaHdr returns a pointer to the std message header struct
+    - dcaSendMsg handles ACK/ARQ internally
+
+    - Monsoon code has standard error return as something like
+
+	  if ( dhsID == (dhsHandle *)NULL ) {
+	    *istat = DHS_ERROR;
+	    MNSN_WRITE_VAL(resp,"ERROR","dhsSysOpen-E-bad parameter",*istat);
+	    return;
+	  }
+
+      Would like to be able to add debug code to this to be sent to Super
+      for display in console client.  Needs a wrapper.
+
+
+--------------------------------------------------------------------------------
+
+
+typedef long dhsHandle;
+
+/* Focal-Plane configuration structure.
+ */
+typedef struct fpConfig_str { 
+   ulong  xSize;   	/* size of a row on the focal plane (i.e. ncols)     */
+   ulong  ySize;   	/* size of a column on the focal plane (i.e. oows)   */
+   ulong  xStart;       /* (0-indexed?) first X pixel in this part of plane  */
+   ulong  yStart;       /* (0-indexed?) first Y pixel in this part of plane  */
+   long   dataType;     /* data type of the pixels (number of bytes)         */
+
+ } fpConfig_t, *fpConfig_p, **fpConfig_s;
+
+
+/* Meta-Data configuration structure.
+ */
+typedef struct mdConfig_str { 
+   ulong metaType;                 /* conceptual type of the meta data */
+   ulong numFields;                /* number of fields in the meta data array */
+   ulong fieldSize[DHS_MAXFIELDS]; /* number of items in the field */
+   ulong dataType[DHS_MAXFIELDS];  /* data type of the values in the field */
+ } mdConfig_t, *mdConfig_p, **mdConfig_s;
+
+
+--------------------------------------------------------------------------------
+
+
+/* Super struct used to define default connection to supervisor.  Need a 
+ * global struct so we can change it at runtime from MONSOON w/out restarting
+ * process.
+ */
+struct Super {
+   char *node;
+   int   port;
+} = { "super_node", 1234 };
+
+
+/* DCAINITCHANNEL -- Initialize a channel to either the supervisor or a 
+ * collector process.  If the requested channel is not already connected,
+ * or the destination specification has changed since it was opened, we will
+ * open a new connection here.  Otherwise, we verify the connection is still
+ * working and simply reset counters,
+ */
+dcaInitChannel (dhsHandle *dhsID, int type)
+{
+  dhsChan *chan;
+
+
+  if (type == DCA_SUPERVISOR) {
+
+      if (dhsID->super == NULL)
+          calloc a new channel structure
+      else	 
+          chan = dhsID->super
+
+      if (chan->connected > 0) {
+	  /* we're already connected to Supervisor */
+	  if ((status = test connection by requesting an ACK) == alive) {
+	      /* connection fine, just return. */
+      	      chan->nerrs   = 0
+      	      chan->nresend = 0
+	      chan->connected = OK;
+	      return
+	  } else {
+	      close current connection and try to reopen below
+	  }
+      }
+
+      /* Get a connection string of the for node:port for the channel */
+      dcaGetSupervisorConnection (chan)
+      chan->node    = dcaGetNode (chan->device)
+      chan->port    = dcaGetPort (chan->device)
+      chan->nerrs   = 0
+      chan->nresend = 0
+
+      /* Open a socket to the Supervisor */
+      if ((chan.fd  = connectTo (chan)) > 0)
+	  chan.connected++;
+
+      dhsID->super = chan
+
+  } else if (type == DCA_COLLECTOR) {
+
+      if (dhsID->super == NULL)
+	  dcaInitChannel (dhsID, DCA_SUPERVISOR
+
+      send message to supervisor asking for collector device string
+	
+      if (dhsID->collector == NULL)
+          calloc a new channel structure
+      else	 
+          chan = dhsID->collector
+
+      if (chan->connected > 0) {
+	  /* we're already connected to a collector */
+	  if ((status = test connection by requesting an ACK) == alive) {
+	      /* connection fine, just return. */
+      	      chan->nerrs   = 0
+      	      chan->nresend = 0
+	      chan->connected = OK;
+	      return
+	  } else {
+	      close current connection and try to reopen below
+	  }
+      }
+
+      /* Get a connection string of the for node:port for the channel */
+      dcaGetCollectorConnection (chan)
+      chan->node    = dcaGetNode (chan->device)
+      chan->port    = dcaGetPort (chan->device)
+      chan->nerrs   = 0
+      chan->nresend = 0
+
+      /* Open a socket to the Supervisor */
+      if ((chan.fd  = connectTo (chan)) > 0)
+	  chan.connected++;
+
+      dhsID->collector = chan
+  }
+}
+
+
+/* Get a connection string to the DHS Supervisor.  Format of the string is
+ *
+ *   	<node_name> ':' <port_num>
+ *
+ * If connection defined in environment, use it, otherwise use default.
+ */
+dcaGetSupervisorConnection (dhsChan *chan)
+{
+  char *con = NULL; 
+
+  if (getenv (DHS_SUPERVISOR) != NULL)
+      /* only possible once at process starup so will override the hardwired
+       * defaults supplied.
+       */	 
+      chan->device = getenv (DHS_SUPERVISOR)
+
+  else 
+      sprintf (chan->device, "%s:%d", default_node, default_port)
+}
+
+dcaValidateChannel (channel)
+{
+    if (validate connection to super == ERR)
+	/* Reinitialize channel and try again before failing */
+        dcaInitChannel (dhsID, DHS_SUPERVISOR)
+        if (validate connection to super == ERR)
+	    set error return, can't write to super
+    }
+
+}

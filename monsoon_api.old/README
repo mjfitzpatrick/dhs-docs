@@ -1,0 +1,12 @@
+Convert dhsSendPixelData() to write to a socket instead of a file.  Use this
+routine and the driver to really assess bandwidth and latency on the 1Gpbs
+link between pipedevn and pipen1.
+
+cc -o server timing.c proto_server.c  		(run this on pipen1)
+cc -o client proto.c proto_driver.c  		(run this on pipedevn)
+
+Usage:
+ 
+client data_filename
+
+server {optional port}  - default 9099

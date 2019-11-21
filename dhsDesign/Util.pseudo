@@ -1,0 +1,62 @@
+
+char *dcaGetSuperDev ()
+char *dcaDevNode (char *device)
+int   dcaDevPort (char *device)
+
+
+
+
+/* Return a device string for the DHS Supervisor.  Format of the string is
+ *
+ *      <node_name> ':' <port_num>
+ *
+ * If connection defined in environment, use it, otherwise use default to
+ * the node/port specified in the Super struct.  Super is hardwired (or at
+ * least somehow initialized when the library is initialized but may be
+ * changed with an IOCTL later to request a different supervisor.
+ */
+char *
+dcaGetSuperDev ()
+{
+  char *dev = NULL;
+
+  /* Initialize to the default value. */
+  sprintf ((dev=malloc(SZ_LINE)), "%s:%d", Super.node, Super.port)
+
+  /* Only look for the environment value the first time we are called.  */
+  if (!Super.initialized++ && (dev = getenv (DHS_SUPERVISOR)) == NULL)
+      ;
+
+  return (dev)  /* Simply return device. <validate the form as well?>  */        
+}
+
+
+/* DCADEVNODE -- Pull out the nodename part of a device string.
+ */
+char *
+dcaDevNode (char *device)
+{
+  ... extract node name up to ':'
+  return (node)
+}
+
+
+/* DCADEVPORT -- Pull out the nodename part of a device string.
+ */
+int
+dcaDevPort (char *device)
+{
+  ... extract port number following the ':'
+  return (atoi (port))
+}
+
+
+/* Simply check whether the given channel is alive.  Sending a NO-OP will
+ * either get an ACK and we return OK, or fail and we return ERR.
+ */
+dcaValidateChannel (chan *chan)
+{
+    return (dcaSend (chan, DCA_NOOP, NULL)) )
+}
+
+

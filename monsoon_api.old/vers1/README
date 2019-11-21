@@ -1,0 +1,7 @@
+This is an implementation of the Monsoon to DHS API that implements
+dhsSendPixelData() and dhsSendMetaData(), but it simply writes the data 
+it receives to a file that is named by using obs_id concatenates with 
+monsoon star date (exposure id).  It prepends the metadata to the first of
+the file.  Relevant files are proto.c (implements dhsSendPixelData()) and
+send_meta.c and proto_driver.c, although the Monsoon dhsUtil.h is also
+needed.

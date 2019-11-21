@@ -1,0 +1,321 @@
+Warning: no login.cl found in login directory
+      ace         dbms        graspo      mxtools     softools    utilities
+      adccdrom    dimsum      guiapps     nlocal      spectime    vol
+      arcon       etools      ice         nmisc       spptools    xccdred
+      ared        finder      ifocas      noao        sqiid       xdimsum
+      aspec       fitsutil    images      nso         steward     xdwred
+      ccdacq      ftools      language    obsolete    stsdas      xray
+      color       gemini      lists       plot        system      
+      ctio        gmisc       mscred      proto       tables      
+      dataio      grasp       mtools      rgo         ucsclris    
+cl> All positional arguments must be first
+** Syntax error
+**: zero001.fits  ->  mtexb0[1]:  zero001              nextend=4  test
+                                                                       ^
+cl> INTERNAL ERROR: `error()' expects two arguments
+cl> ** Syntax error
+**:     mscwfits (input=@test.list, output=mtexb0, newtape=yes)
+                         ^
+cl> cl> All positional arguments must be first
+** Syntax error
+**: cl> mscwfits @test.list mtdat1 yes
+                             ^
+cl> All positional arguments must be first
+** Syntax error
+**: zero001.fits  ->  mtdat1[1]:  zero001              nextend=4  test
+                                                                       ^
+cl> INTERNAL ERROR: `error()' expects two arguments
+cl> ** Syntax error
+**:     mscwfits (input=@test.list, output=mtdat1, newtape=yes)
+                         ^
+cl> cl> cl> ERROR: task `The' not found
+cl> **: ---
+        ^
+ERROR: syntax error
+cl> ERROR: task `bob' not found
+cl> cl> cl> ERROR: task `tucana' not found
+cl> **: "/usr/spool/mail/fitz": 21 messages 5 new 19 unread
+                           ^
+ERROR: syntax error
+cl> **:     1 valdes@noao.edu    Mon Aug  5 16:13  266/13446 problem report for XImtoo
+          ^
+ERROR: syntax error
+cl> **:     2 jansen@astro.wisc.edu Mon Aug 12 10:35   70/2631  Re: Xgterm under Mac OSX
+          ^
+ERROR: syntax error
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ** Syntax error
+**:  U 10 valdes@noao.edu    Fri Jul 25 11:16  102/3077  64 bits (FW from Andrew)
+                                                                          ^
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> ERROR: task `U' not found
+cl> **: >N 17 nbuchholz@noao.edu Thu Mar  4 12:12 5607/405381 Fwd:  message on the DHS 
+      ^
+ERROR: syntax error
+cl> ERROR: task `N' not found
+cl> cl> ** Syntax error
+**: Comments on ICD 1.0 -- Data Handling System Interface
+                            ^
+cl> cl> ERROR: task `Sec' not found
+cl> cl> cl> cl> ** Syntax error
+**: Comments on ICD 1.0 -- Data Handling System Interface
+                            ^
+cl> cl> ERROR: task `Sec' not found
+cl> cl> cl> ERROR: task `Does' not found
+cl> ** Syntax error
+**:         local disk (which will fill eventually)?  If so, is a DHS then
+                                   ^
+cl> ERROR: task `required' not found
+cl> ERROR: task `will' not found
+cl> cl> ** Syntax error
+**: Comments on ICD 1.0 -- Data Handling System Interface
+                            ^
+cl> cl> ERROR: task `Sec' not found
+cl> cl> cl> ERROR: task `Does' not found
+cl> ** Syntax error
+**:         local disk (which will fill eventually)?  If so, is a DHS then
+                                   ^
+cl> ERROR: task `required' not found
+cl> ERROR: task `will' not found
+cl> ERROR: task `and' not found
+cl> ERROR: task `or' not found
+cl> ERROR: Newline while processing string
+cl> cl> ERROR: task `Sec' not found
+cl> cl> ERROR: package `3' not found
+cl> cl> ERROR: task `Is' not found
+cl> ERROR: task `subrasters' not found
+cl> ERROR: Newline while processing string
+cl> ERROR: task `arrays' not found
+cl> ERROR: too many positional arguments for `onedspec'
+cl> ERROR: task `an' not found
+cl> cl> ERROR: package `3' not found
+cl> cl> ERROR: task `Is' not found
+cl> ERROR: task `connection' not found
+cl> ERROR: task `well' not found
+cl> ERROR: task `in' not found
+cl> cl> ERROR: task `Sec' not found
+cl> cl> ERROR: package `4' not found
+cl> cl> ERROR: Newline while processing string
+cl> ERROR: task `transfer' not found
+cl> **:         side?  Why?  How does this square with recovering from images saved
+                  ^
+ERROR: syntax error
+cl> ERROR: ambiguous task `to'
+cl> cl> ERROR: task `Sec' not found
+cl> cl> ** Syntax error
+**:     o I was confused by use of 'dhsID'.  I assume this is something like
+                                            ^
+cl> **:         another long int (so it can return -1) and 'dhsHandle' is just a
+             ^
+ERROR: syntax error
+cl> **:         typedef?
+             ^
+ERROR: syntax error
+cl> **:     o Is there logically any difference/connection between the dhsID returned
+         ^
+ERROR: syntax error
+cl> **:         by the dhsSysOpen/dhsOpenConnect/dhsOpenExp?  E.g. I would have thought
+             ^
+ERROR: syntax error
+cl> **:         the dhsID returned by the a dhsSysOpen would be an input parameter to
+             ^
+ERROR: syntax error
+cl> **:         dhsOpenConnect to open a connection to that logical DHS supervisor,
+             ^
+ERROR: syntax error
+cl> ERROR: Newline while processing string
+cl> **:     o Sec 3.4.3 - needs to describe dhsID as return value
+         ^
+ERROR: syntax error
+cl> **:     o Any requirement that e.g. dhsSysClose shut down other open connections?
+         ^
+ERROR: syntax error
+cl> ERROR: Newline while processing string
+cl> ERROR: Newline while processing string
+cl> **:     o Sec 3.8 - dhsID not described, is this is id from the sys/connect/exp
+         ^
+ERROR: syntax error
+cl> ERROR: Newline while processing string
+cl> **:         to send metadata to a DHS super over the sys connection, perhaps
+             ^
+ERROR: syntax error
+cl> **:         before I have an expID?
+             ^
+ERROR: syntax error
+cl> **:     o Sec 3.11 - same comment for dhsIOCTL
+         ^
+ERROR: syntax error
+cl> cl> **:     o Sec 3.12.4 Meta-Data Descriptor Structure
+         ^
+ERROR: syntax error
+cl> cl> **:         o what exactly is 'numfields'?  E.g. for a FITSHEADER is it the
+             ^
+ERROR: syntax error
+cl> **:           number of fits cards, or the number of cards times the three
+               ^
+ERROR: syntax error
+cl> **:           fields making up that type?  May just be confused wording.
+               ^
+ERROR: syntax error
+cl> **:         o Is AVPAIR data fixed format at 256 bytes/avpair?
+             ^
+ERROR: syntax error
+cl> **:         o What is size of MAXFIELDS?
+             ^
+ERROR: syntax error
+cl> **:         o What is ARRAYDATA type used for
+             ^
+ERROR: syntax error
+cl> cl> cl> ERROR: task `Suspended' not found
+cl> ERROR: task `tucana' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `From' not found
+cl> ERROR: task `tucana' not found
+cl> cl> ERROR: task `From' not found
+cl> **: Return-Path: <bmarshall@noao.edu>
+                 ^
+ERROR: syntax error
+cl> **: Received: from noao.edu (noao.edu [140.252.1.54])
+              ^
+ERROR: syntax error
+cl> ** Syntax error
+**:         by tucana.tuc.noao.edu (8.11.6p2-20030918/8.11.3/SAG-04Apr12) with ESMTP id i24MKuD10109
+                                           ^
+cl> ** Syntax error
+**:         for <fitz@tucana.tuc.noao.edu>; Thu, 4 Mar 2004 15:20:57 -0700 (MST)
+                                           ^
+cl> **: Received: from <fitz@noao.edu>
+              ^
+ERROR: syntax error
+cl> **:   by noao.edu (CommuniGate Pro RULES 4.1.8)
+       ^
+ERROR: syntax error
+cl> **:   with RULES id 10913383; Thu, 04 Mar 2004 15:20:56 -0700
+       ^
+ERROR: syntax error
+cl> **: X-Autogenerated: Mirror
+                     ^
+ERROR: syntax error
+cl> **: X-Mirrored-by: <fitz@noao.edu>
+                   ^
+ERROR: syntax error
+cl> **: X-Spam-Checker-Version: SpamAssassin 2.61 (1.212.2.1-2003-12-09-exp) on  noao.edu
+                            ^
+ERROR: syntax error
+cl> **: X-Spam-Status: No, hits=-4.8 required=4.5 tests=AWL,BAYES_00 autolearn=ham  version=2.61
+                   ^
+ERROR: syntax error
+cl> **: X-Spam-Level: 
+                  ^
+ERROR: syntax error
+cl> **: X-TFF-CGPSA-Version: 1.2.7
+                         ^
+ERROR: syntax error
+cl> **: X-TFF-CGPSA-Filter: Scanned
+                        ^
+ERROR: syntax error
+cl> **: X-Real-To: <fitz@noao.edu>
+               ^
+ERROR: syntax error
+cl> **: Received: from banana.tuc.noao.edu ([140.252.23.167] verified)
+              ^
+ERROR: syntax error
+cl> **:   by noao.edu (CommuniGate Pro SMTP 4.1.8)
+       ^
+ERROR: syntax error
+cl> **:   with ESMTP id 10913382 for fitz@noao.edu; Thu, 04 Mar 2004 15:20:55 -0700
+       ^
+ERROR: syntax error
+cl> ERROR: task `really' not found
+cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> cl> ** Syntax error
+**: QUIT (signal 2) (error code 2)
+                   ^
+cl> cl> **: 10.410u 1.920s 1:23.35 14.7% 0+463k 1+24io 1pf+0w
+           ^
+ERROR: syntax error
+cl> ERROR: task `tucana' not found
+cl> **:   4:43pm  up 129 days,  7:40,  4 users,  load average: 1.83, 1.70, 1.53
+             ^
+ERROR: syntax error
+cl> ERROR: task `User' not found
+cl> ERROR: task `fitz' not found
+cl> ERROR: task `valdes' not found
+cl> ERROR: task `fitz' not found
+cl> ERROR: task `seaman' not found
+cl> ERROR: task `tucana' not found
+cl> **: >Phil
+       ^
+ERROR: syntax error
+cl> **: >
+      ^
+ERROR: syntax error
+cl> cl> cl> ERROR: task `From' not found
+cl> **: X-SpamCatcher-Score:   1 [X]
+                         ^
+ERROR: syntax error
+cl> **: X-Autogenerated: Mirror
+                     ^
+ERROR: syntax error
+cl> **: X-Mirrored-by: <iraf@noao.edu>
+                   ^
+ERROR: syntax error
+cl> **: X-Spam-Checker-Version: SpamAssassin 2.61 (1.212.2.1-2003-12-09-exp) on  noao.edu
+                            ^
+ERROR: syntax error
+cl> **: X-Spam-Status: No, hits=-4.8 required=4.5 tests=BAYES_00,
+                   ^
+ERROR: syntax error
+cl> ERROR: task `RCVD_IN_SORBS' not found
+cl> **: X-Spam-Level: 
+                  ^
+ERROR: syntax error
+cl> **: X-TFF-CGPSA-Version: 1.2.7
+                         ^
+ERROR: syntax error
+cl> **: X-TFF-CGPSA-Filter: Scanned
+                        ^
+ERROR: syntax error
+cl> **: X-SpamCatcher-Score:   1 [X]
+                         ^
+ERROR: syntax error
+cl> **: X-Real-To: <iraf@noao.edu>
+               ^
+ERROR: syntax error
+cl> ERROR: interrupt!!!
+cl> cl> cl> cl> ERROR: interrupt!!!
+cl> ERROR: interrupt!!!
+cl> 

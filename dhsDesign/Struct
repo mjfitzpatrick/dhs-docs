@@ -1,0 +1,236 @@
+
+
+      dhsSysOpen (long *status, char *response, int numNodes)
+     dhsSysClose (long *status, char *response, dhsHandle dhsID
+
+
+  dhsOpenConnect (long *status, char *response, dhsHandle *dhsID,
+                    unsigned long whoAmI, struct fpConfig *pxlConfig)
+ dhsCloseConnect (long *status, char *response, dhsHandle dhsID)
+
+      dhsOpenExp (long *status, char *response, dhsHandle *dhsID,
+            	    struct fpConfig *pxlConfig, double *expID, char *obsSetID)
+     dhsCloseExp (long *status, char *response, dhsHandle dhsID, double expID)
+
+dhsSendPixelData (long *status, char *response, dhsHandle dhsID, 
+                  void *pxlAddr, size_t blkSize, struct fpConfig *pxlDescr,
+                  double *expID, char *obsSetID)
+
+ dhsSendMetaData (long *status, char *response, dhsHandle dhsID,
+                      void *blkAddr, size_t blkSize, struct mdConfig *mdDescr,
+                      double *expID, char *obsSetID)
+
+        dhsIOCtl (long *status, char *response, dhsHandle dhsID,
+		     ulong ioCtlFunc, char *ObsID, double *expID, ...)
+
+
+
+Low-Level Private Procedures
+
+
+      dcaInitChannel  (dhsID, type)
+          dcaConnect  (dhsID, devstr)
+
+      dcaOpenChannel  (chan)
+  dcaValidateChannel  (chan)
+     dcaCloseChannel  (chan)
+
+ dev = dcaGetSuperDev (dhsID)
+   dev = dcaGetDCADev (dhsID)
+    node = dcaDevNode (dev)
+    port = dcaDevPort (dev)
+
+	     dcaSend  (chan, option, value)
+	      dcaSet  (dhsID, option, value)
+      value = dcaGet  (dhsID, option)
+
+     msg = dcaFmtMsg  (msgtype, whoami, addr, size)
+          dcaSendMsg  (dhsID, msg)
+	  dcaReadMsg  (dhsID, client_data)
+
+	     dcaSend  (dhsID, buf, size)
+	     dcaRecv  (dhsID, buf, size)
+
+	   connectTo  (chan)
+
+Utility Procedures/Macros:
+
+  	 fd = DCS_FD (dhsID)		DCS => Data Capture Supervisor
+         fd = DCC_FD (dhsID)		DCC => Data Capture Collector
+
+
+
+-------------------------------------------------------------------------------
+Data Structures:
+-------------------------------------------------------------------------------
+
+
+struct dhsID {
+  struct dhsChan  *super;	/* Supervisor channel			*/
+  struct dhsChan  *collector;	/* Collector channel			*/
+  int	 nopen;			/* No. of open channels			*/
+}
+
+struct dcaMessage {
+    struct msgHeader {
+        long type,	/* message type, e.g. DCA_OPEN|DCA_SYS	  	*/
+        long whoami;	/* sender of data			  	*/
+
+        long expnum;	/* "exposure number" to which msg belongs 	*/
+        long obset;	/* "observation set" to which msg belongs 	*/
+
+        long value;	/* set/get message value			*/
+
+        long retry;	/* retry count for this message	  	  	*/
+        long nbytes;	/* number of bytes of data following msg  	*/
+        long checksum;	/* MD5 sum of data (for meta/pixel only)  	*/
+    }
+
+    void *client_data;	/* data to be sent/read			  	*/
+    int  *data_size;	/* size of data to be sent/read		  	*/
+}
+
+
+struct dhsChan {
+    int	  fd;		/* socket descriptor for connection	  */
+
+    char *device;	/* the 'node:port' string		  */
+    char *node;		/* node where DCA object is running	  */
+    int   port;		/* port on node for DCA object	  	  */
+
+    int   nerrs;	/* error count on channel		  */
+    int   nresends;	/* packet resend count on channel	  */
+    int   retries	/* needed at all??			  */
+    int   timeout	/* needed at all??			  */
+
+    int   connected;	/* connection status flag         	  */
+    int   type;		/* channel type				  */
+};
+
+
+
+#define DCA_OPEN	000002	/* Open something			*/
+#define DCA_CLOSE	000004	/* Close something			*/
+#define DCA_READ	000010	/* Read something			*/
+#define DCA_WRITE	000020	/* Write something			*/
+
+#define DCA_INIT	000001	/* Initialize something			*/
+#define DCA_FAIL	000040	/* Write something			*/
+#define DCA_NOOP	000001	/* Initialize something			*/
+
+#define DCA_SET		000100	/* Set something			*/
+#define DCA_GET		000200	/* Get something			*/
+
+#define DCA_SYS		000400	/* DHS System				*/
+#define DCA_CON		001000	/* Connection to DHS collector		*/
+#define DCA_EXP		002000	/* Single Exposure			*/
+#define DCA_META	004000	/* Meta Data 				*/
+#define DCA_PIXEL	010000	/* Pixel data				*/
+
+#define DCA_STICKY	100000	/* Message Sticky Bit			*/
+
+
+/* Set/Get options. */
+#define DCA_NOOP		/* NO-OP, used to request an ACK             */
+#define DCA_ACK			/* ACK message             		     */
+#define DCA_ERR			/* Error return             		     */
+#define DCA_OK			/* Okay return             		     */
+
+#define DCA_IO_MODE		/* operational mode (live, simulation, etc)  */
+#define DCA_IO_METHOD		/* communications method 		     */	
+#define DCA_IO_SIZE		/* communications 'packet' size		     */	
+
+#define DCA_CHECKSUM		/* compute checksum data for I/O? (boolean)  */ 
+#define DCA_DIRECTORY		/* set/get the current working directory     */
+#define DCA_SUPDEV		/* supervisor "device" name 		     */
+
+#define DCA_NPANS		/* no. of PANs in use 			     */
+#define DCA_NCLIENTS		/* no. of clients connected to Supervisor    */
+#define DCA_NCOLLECTORS		/* no. of collectors in use by Supervisor    */
+
+#define	DCA_OBS_CONFIG		/* observation set config structure          */
+#define	DCA_FP_CONFIG		/* focal plane config structure              */
+#define	DCA_MD_CONFIG		/* metadata config structure                 */
+#define	DCA_EXPID		/* exposure ID				     */
+#define	DCA_OBSID		/* obs set ID				     */
+
+#define	DCA_SUPDEV		/* Supervisor device string 		     */
+#define	DCA_DCADEV		/* Collector device string 		     */
+
+#define DCA_DEBUG_LEVEL		/* debug level 				     */
+#define DCA_SIMUL_LEVEL		/* simulation level			     */
+
+
+/* Set/Get values. */
+#define DCA_CAPTURE		/* I/O modes */
+#define DCA_SIMULATION
+#define DCA_DEBUG
+
+#define DCA_FAST		/* I/O methods */
+#define DCA_RELIABLE
+
+#define DCA_SUPER		/* type of dhsID channel/whoami flags */
+#define DCA_COLLECTOR
+#define DCA_NOCS
+#define DCA_MSL
+#define DCA_PAN
+
+
+
+Communication w/ Supervisor:
+    - All messages send std msgHeader to define the type of message and
+	operation requested
+    - Breaking out DCA_SYS, DCA_SET, etc as bitflags allows us to send a
+	more targeted message, e.g. DCA_SET|DCA_FP_CONFIG to send the
+	focal-plane config structure as data following the header rather
+	encode it.
+    - dcaHdr returns a pointer to the std message header struct
+    - dcaSendMsg handles ACK/ARQ internally
+
+    - Monsoon code has standard error return as something like
+
+	  if ( dhsID == (dhsHandle *)NULL ) {
+	    *istat = DHS_ERROR;
+	    MNSN_WRITE_VAL(resp,"ERROR","dhsSysOpen-E-bad parameter",*istat);
+	    return;
+	  }
+
+      Would like to be able to add debug code to this to be sent to Super
+      for display in console client.  Needs a wrapper.
+
+
+--------------------------------------------------------------------------------
+
+
+typedef long dhsHandle;
+
+/* Focal-Plane configuration structure.
+ */
+typedef struct fpConfig_str { 
+   ulong  xSize;   	/* size of a row on the focal plane (i.e. ncols)      */
+   ulong  ySize;   	/* size of a column on the focal plane (i.e. oows)    */
+   ulong  xStart;       /* (0-indexed?) first X pixel in this part of plane   */
+   ulong  yStart;       /* (0-indexed?) first Y pixel in this part of plane   */
+   long   dataType;     /* data type of the pixels (number of bytes)          */
+
+ } fpConfig_t, *fpConfig_p, **fpConfig_s;
+
+
+/* Meta-Data configuration structure.
+ */
+typedef struct mdConfig_str { 
+   ulong metaType;                 /* conceptual type of the meta data        */
+   ulong numFields;                /* number of fields in the meta data array */
+   ulong fieldSize[DHS_MAXFIELDS]; /* number of items in the field            */
+   ulong dataType[DHS_MAXFIELDS];  /* data type of the values in the field    */
+ } mdConfig_t, *mdConfig_p, **mdConfig_s;
+
+#define DHS_MDTYPE_FITSHEADER       1 /* meta data is a FITS header 	      */
+#define DHS_MDTYPE_AVPAIR           2 /* meta data is an av-pair list 	      */
+#define DHS_MDTYPE_SHIFTLIST        3 /* meta data is a shift list 	      */
+#define DHS_MDTYPE_ARRAYDATA        4 /* meta data is an array 		      */
+
+
+--------------------------------------------------------------------------------
+
+

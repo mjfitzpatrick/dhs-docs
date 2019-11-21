@@ -1,0 +1,171 @@
+
+
+int   dcaInitChannel (dhsHandle *dhsID, int type)
+char *dcaGetDCADev (dhsID *dhsID)
+int   dcaValidateChannel (chan *chan)
+
+
+/* Super struct used to define default connection to supervisor.  Need a 
+ * global struct so we can change it at runtime from MONSOON w/out restarting
+ * process.
+ */
+struct Super {
+   char *node;
+   int   port;
+} = { "super_node", 1234 };
+
+
+
+/* ------------------------------------------------------------------------
+ * DCAINITCHANNEL -- Initialize a channel to either the supervisor or a 
+ * collector process.  If the requested channel is not already connected,
+ * or the destination specification has changed since it was opened, we will
+ * open a new connection here.  Otherwise, we verify the connection is still
+ * working and simply reset counters,
+ */
+int
+dcaInitChannel (dhsHandle *dhsID, int type)
+{
+  dhsChan *chan;
+
+
+  if (type == DCA_SUPERVISOR) {
+
+      if (dhsID->super == NULL)
+          calloc a new channel structure
+      else	 
+          chan = dhsID->super
+
+      if (chan->connected > 0) {
+	  /* we're already connected to Supervisor, test connection by
+	   * sending a NO-OP to get the ACK.
+	   */
+	  if (dcaSendMsg (chan, dcaFmtMsg (DCA_NOOP, NULL)) != DCA_ERR) { 
+	      /* connection fine, just return. */
+      	      chan->nerrs   = 0
+      	      chan->nresend = 0
+	      chan->connected = OK;
+	      return
+	  } else {
+	      /* close current connection and try to reopen below */
+	      dcaCloseChannel (chan);
+	  }
+      }
+
+      /* Get a connection string of the for node:port for the channel */
+      chan->device  = dcaGetSuperDev (dhsID)
+      chan->node    = dcaDevNode (chan->device)
+      chan->port    = dcaDevPort (chan->device)
+      chan->nerrs   = 0
+      chan->nresend = 0
+
+      /* Open a socket to the Supervisor */
+      if (dcaOpenChannel (chan)) > 0)
+	  dhsID->nopen++;
+      else
+	  return ERR, can't get a connection
+
+      dhsID->super = chan
+
+  } else if (type == DCA_COLLECTOR) {
+
+      if (dhsID->super == NULL) {
+	  ...warn about dead super connection
+	  if (dcaInitChannel (dhsID, DCA_SUPERVISOR) == ERR)
+	      set error return, can't connect to super
+      }
+
+      if (dhsID->collector == NULL)
+        calloc a new channel structure
+
+      else {
+        chan = dhsID->collector
+
+        if (chan->connected > 0) {
+	  /* we're already connected to a collector */
+	  if (dcaSendMsg (chan, dcaFmtMsg (DCA_NOOP, NULL)) != DCA_ERR) { 
+	      /* connection fine, just return. */
+      	      chan->nerrs   = 0
+      	      chan->nresend = 0
+	      chan->connected = OK;
+	      return OK
+	  } else {
+	      /* close current connection and try to reopen below */
+	      dcaCloseChannel (chan);
+	  }
+        }
+      }
+
+      /* Request a collector from the supervisor. */
+      if ((chan->device = dcaGetDCADev (dhsID)) == NULL)
+	  set error return, can't get collector device string
+
+      chan->node    = dcaDevNode (chan->device)
+      chan->port    = dcaDevPort (chan->device)
+      chan->nerrs   = 0
+      chan->nresend = 0
+
+      /* Open a socket to the Collector */
+      if (dcaOpenChannel (chan)) > 0)
+	  dhsID->nopen++;
+      else
+	  return ERR, can't get a connection
+
+      dhsID->collector = chan
+  }
+
+  return (OK)
+}
+
+
+
+/* dcaFmtMsg -- Format a message for the DCA.  We are called at a minimum
+ * with a message type and a sender ID.  Optional args include the address
+ * and size of a data buffer associated with the message.  The header and
+ * data buffers are transferred separately during the send, and space
+ * allocated for the message is freed.
+msgPtr
+dcaFmtMsg (ulong type, ulong whoami [ , addr, size ])
+{
+	/* Struct is freed when we send the message. */
+	msgHdrPtr mh = calloc (1, sizeof (msgHeader))
+
+	mh->type   = type
+	mh->whoami = whoami
+
+	mh->expnum = dhs->expID;	/* from global dhs state struct */
+	mh->obset  = dhs->obsSetID;
+
+	if (addr and size given as vararg) {
+	    mh->addr   = (void *)addr
+	    mh->size   = size
+	}
+}
+
+
+
+dcaSendMsg (chan, msg)
+{
+
+  	send the message header
+
+	if (addr && size)
+  	    send the data
+}
+
+
+dcaReadMsg (chan, client_data)
+{
+  	read the message header
+
+	if (addr && size)
+  	    read the data
+}
+
+
+/* dcaRefreshState -- Tell the supervisor to send us all the state
+ * information we could possbly want.
+ */
+dcaRefreshState (chan)
+{
+}

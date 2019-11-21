@@ -1,0 +1,9 @@
+Design Notes
+------------
+Fri Jun  3 11:48:51 MST 2005:
+   Still getting a farm that is empty in registerCollector() after filling
+   it in startCollector().  Just realized that the parent data struct is not
+   being updated from the child startCollector(). So even though, 
+   registerCollector() is forked after startCollector() fills farm, it is
+   only seeing an empty farm (because that is what the parent has).  Solution:
+   add shmem with locking.

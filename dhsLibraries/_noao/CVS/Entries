@@ -1,0 +1,21 @@
+/Makefile/1.4/Wed Aug 25 18:21:32 2004//
+/client.cxx/1.1/Tue Jun  8 16:51:13 2004//
+/dhsImplementationSpecifics.h/1.2/Tue Jun  8 16:51:13 2004//
+/dhsTcl.c/1.2/Wed Aug 25 18:21:32 2004//
+/dhsTcl.h/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsTcl.tcl/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUSPDorig.c/1.1/Thu Jul 15 17:18:39 2004//
+/dhsUtilAux.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilCloseConnect.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilCloseExp.c/1.2/Tue Jun  8 16:51:13 2004//
+/dhsUtilIOCtl.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilInit.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilOpenConnect.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilOpenExp.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilReadImage.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilSendMetaData.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilSendPixelData.c/1.3/Wed Aug 25 18:21:32 2004//
+/dhsUtilSysClose.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilSysOpen.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+/dhsUtilUnInit.c/1.1.1.1/Tue Apr 27 15:51:33 2004//
+D

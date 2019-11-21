@@ -1,0 +1,81 @@
+
+Comments on ICD 1.0 -- Data Handling System Interface
+
+Sec 2.1.4  Graceful degradation in face of failures. ....  Observing should
+	   be able to continue...even if all DHS computers have failed.
+
+	    Does this mean the DHS lib in the pansaver should write to
+	local disk (which will fill eventually)?  If so, is a DHS then
+	required to recover by transferring this data automatically or
+	will some other manual recovery be done?  If DHS dies completely
+	and restarts, does DHSlib then reconnect by resetting the state
+	or do we lose the sequence/exposure on the pan side?  Does DHS 
+	implement it's own disk writer or can the other software be reused?
+
+Sec 2.3 Meta-Data Handling
+
+    2.3.2.c  ROI image arrays - multiple focus Frames in single image
+
+	Is an ROI simply a subraster?  Are 'multiple focus frames' sequential
+	subrasters or are they spatially separate subrasters of a larger
+	frame?  Aren't these just instances of the more general multi-dim
+	arrays in 2.3.2.b or are they something logically different?  If
+	one half of a pan detector dies is the remaining subraster then
+	an ROI?
+
+    2.3.4  Combine/Associate Meta-Data.
+
+	Is this association everything collected between a start/end exposure
+	connection or by exposure-id?  Requirement should clarify this, as 
+	well as whether obs sequence metadata needs to be associated w/ pixel
+	in each exposure.
+
+Sec 2.4 Data storage/archiving
+
+    2.4.1  Memory to ethernet to memory transfers.
+
+	Don't understand this requirement, does it mean after the ethernet
+	transfer the data is required to be put back into memory on the DHS
+	side?  Why?  How does this square with recovering from images saved
+	to disk during a failure?
+
+Sec 3 DHS API
+
+    o I was confused by use of 'dhsID'.  I assume this is something like
+	another long int (so it can return -1) and 'dhsHandle' is just a
+	typedef? 
+    o Is there logically any difference/connection between the dhsID returned
+	by the dhsSysOpen/dhsOpenConnect/dhsOpenExp?  E.g. I would have thought
+	the dhsID returned by the a dhsSysOpen would be an input parameter to
+	dhsOpenConnect to open a connection to that logical DHS supervisor,
+	instead they're all return values
+    o Sec 3.4.3 - needs to describe dhsID as return value
+    o Any requirement that e.g. dhsSysClose shut down other open connections?
+    o Sec 3.7 - why is expID needed in call?  Shouldn't dhsID be unique enough
+	or is this a typo (since it's not included in 3.7.4)o
+    o Sec 3.8 - dhsID not described, is this is id from the sys/connect/exp
+	open call?  If it doesn't matter, then would I still need the call
+	to send metadata to a DHS super over the sys connection, perhaps
+	before I have an expID?
+    o Sec 3.11 - same comment for dhsIOCTL
+
+    o Sec 3.12.4 Meta-Data Descriptor Structure
+
+	o what exactly is 'numfields'?  E.g. for a FITSHEADER is it the
+	  number of fits cards, or the number of cards times the three
+	  fields making up that type?  May just be confused wording.
+	  Wait, now I see it later in an example.
+	o What is size of MAXFIELDS?  Where is it defined?  
+	o Is FITSHEADER a real FITS header or just header-like?  Are comments
+	  optional?
+	o Is AVPAIR data fixed format (at a full 256 bytes/avpair)?  Are
+	  spaces significant, are string quoted, etc.
+	o What is ARRAYDATA type used for (example)?  How is this different
+	  from the Array Data Desccriptor mentioned in 3.12.5?
+	o How do I interpret the size of the metadata for all types (e.g. is
+	  the blkSize in dhsSendMetaData the size in bytes of all the metadata
+	  or the number of records)?
+
+    o Sec 3.17  Byte Order -- Does 'message' include the (meta)data blocks?
+ 	If not, what constitutes a message? Assuming linux boxes on either end
+	of the pipe, everything will need to be byte-swapped for transport, why?

@@ -1,0 +1,11 @@
+Suggested changes to Monsoon/DHS API
+------------------------------------
+* Replace openConnect() with openObservation(), which will pass the dither
+  pattern and number of exposures for the observation set. Likewise, replace
+  closeConnect() with closeObservation().  The effect of a client calling
+  openObservation() will still be to establish a communication channel from
+  the PAN to the DHS collector.  Except that the information, dither pattern
+  and number of expected exposures, must come from NOCS not PAN... Hmmm.
+  openObservation() is associated with an activity in the domain, as opposed
+  to openConnect() which is in solution space (referring to the distributed
+  system).

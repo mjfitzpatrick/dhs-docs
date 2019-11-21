@@ -1,0 +1,17 @@
+
+
+      dhsSysOpen (stat, resp, dhsID, whoami)
+  dhsOpenConnect (stat, resp, dhsID, whoami, ArrayCfg)
+      dhsOpenExp (stat, resp, dhsID, ArrayCfg, expID, obsetID)
+
+     dhsSysClose (stat, resp, dhsID)
+ dhsCloseConnect (stat, resp, dhsID)
+     dhsCloseExp (stat, resp, dhsID, expID)
+
+ dhsSendMetaData (stat, resp, dhsID, blkAddr, blkSize, MDCfg, expID, obsetID)
+dhsSendPixelData (stat, resp, dhsID, pxlAddr, pxlSize, ArrayCfg, expID, obsetID)
+
+    dhsReadImage (stat, resp, dhsID)
+
+        dhsIOCtl (stat, resp, dhsID, ioctlFcn, expID, obsetID, ...)
+

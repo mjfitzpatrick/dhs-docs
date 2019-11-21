@@ -1,0 +1,42 @@
+
+
+struct dhsHandle {
+}
+
+
+dhsSysOpen (long *status, char *response, dhsHandle *dhsID, ulong whoAmI)
+{
+
+	/* Initialize. */
+
+	/* Connect to supervisor.  Use a data structure to defined the machine,
+	 * we can override this dynamically with dhsIOCtl();
+	 */
+	if ((*dhsID = connectTo (dhsSupInfo.node, dhsSupInfo.port)) == NULL) {
+	    *dhsID = ERROR	(i.e. -1)
+	    if (response) 
+		strcpy (response, "Can't connect to supervisor");
+	}
+
+	stat = send SYS_OPEN command to supervisor
+	if (!stat ) {
+	    *dhsID = ERROR
+	    if (response) 
+		strcpy (response, "Can't send init to supervisor");
+	}
+}
+
+
+dhsOpenConnect (long *status, char *response, dhsHandle *dhsID, ulong whoAmI, struct fpConfig *pxlConfig)
+[
+	
+	if ((*dhsID = connectTo (dhsSupInfo.node, dhsSupInfo.port)) == NULL) {
+	    *dhsID = ERROR	(i.e. -1)
+	    if (response) 
+		strcpy (response, "Can't connect to supervisor");
+	}
+
+	if (whoAmI == NOCS)
+	    pxlConfig is entire FP
+	else
+	    pxlConfig is pan quadrant

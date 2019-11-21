@@ -1,0 +1,236 @@
+
+Release Notes for radlib
+------------------------
+
+
+2.3.0     10-11-2005
+--------------------
+
+1)   Added UDP datagram socket support including broadcast and multicast. 
+     See radUDPsocket.h for details. Added documentation in the API reference.
+     See test/multicast for an example multicast test program.
+
+2)   Added the "raddebug" CLI utility to attach to a running radlib system and 
+     dump buffer and semaphore usage information. Found in the debug directory 
+     of the distro, just execute make then run the executable "raddebug" on 
+     the radlib system via "./raddebug [radlib_system_id]".
+
+3)   Cleaned up radBuffersDebug output some for use by the raddebug process.
+
+4)   Changed radSystemInit so the system up time isn't reset every time a new 
+     process attaches to it.
+
+
+
+
+2.2.6     10-04-2005
+--------------------
+
+1)  Source code clean up and formatting. 
+
+
+
+
+2.2.5     09-05-2005
+--------------------
+
+1)  Changed some database field processing to comply with the postgresql 
+    changes made in version 8.
+
+
+
+
+2.2.4     08-13-2005
+--------------------
+
+1)  Removed SO_SNDLOWAT and SO_RCVLOWAT configuration as it does not appear to 
+    work correctly on some flavors of linux.
+
+2)  Fixed a few compiler warnings.
+
+
+
+
+2.2.3     07-26-2005
+--------------------
+
+1)  Removed inclusion of "sys/select.h" from radsocket.c - some flavors of BSD 
+    do not like it.
+
+
+
+
+2.2.2     07-14-2005
+--------------------
+
+1)  Moved radlib to a BSD licensing model instead of GPL. Now radlib can be 
+    incorporated in proprietary designs freely with no license obligations 
+    other than inclusion of the BSD-style licensing notice found in the file 
+    "COPYING". radlib is now completely free. Hopefully SourceForge will allow 
+    me to change the project name to "radlib" from "radlib-gpl" soon...
+
+2)  Updated the radlib API Reference to include recent additions of PostgreSQL 
+    support and the TCP socket API.
+
+3)  Changed the radSocketClientCreate function to explicitly set non-blocking 
+    IO during connects so the connect can be timed out properly. The socket 
+    is set back to blocking mode (the default) after the connection succeeds.
+
+
+
+
+
+2.2.1     06-26-2005
+--------------------
+
+1)  Added a few "setsockopt" calls to client socket creation to make the 
+    default client socket more responsive.
+
+
+
+
+
+2.2.0     06-14-2005
+--------------------
+
+1)  Added optional PostgreSQL database interface support. Wrappers libpq.a
+    client library with a logical yet simple API (see raddatabase.h). Can be
+    ported to other relational databases as the PostgreSQL-specific code is 
+    segregated in .../database/postgresql/pg_database.c. Enabled in radlib by 
+    using the "--enable-pgresql" argument to the configure script. Requires an 
+    installed/configured/running PostgreSQL server and the matching libpq
+    library and headers (see README file for more details).
+
+2)  Removed a few legacy log messages during radProcessInit and the infamous 
+    "dummyChild: no writers to reflector pipe - closing it!" message when 
+    the process queue is closed.
+
+
+
+
+2.1.0     06-06-2005
+--------------------
+
+1)  Added TCP stream socket support. See radsocket.h for details.
+
+2)  Added "radDEBUGLog" support to raddebug.[ch].
+
+
+
+
+2.0.1     05-30-2005
+--------------------
+
+1)  Changed how the config file utility handles file locks so it works better
+    when multiple processes are accessing the same file.
+
+
+
+
+2.0.0     4-23-2005
+--------------------
+
+1)  Added optional MySQL database interface support. Wrappers libmysqlclient.a
+    client library with a logical yet simple API (see raddatabase.h). Can be
+    ported to other relational databases as the MySQL-specific code is 
+    segregated in .../database/mysql/my_database.c. Enabled in radlib by using 
+    the "--enable-mysql" argument to the configure script. Requires an 
+    installed/configured/running MySQL server and the matching libmysqlclient
+    library and headers (see README file for more details).
+
+2)  Updated the radlib API Reference Manual to reflect recent additions.
+
+3)  Added an example database program to demo the radlib database API - it 
+    is databaseExample.c in the template directory and can be built and 
+    run from there (see the README file for details).
+
+4)  Fixed a few build nuisances in the template example.
+
+
+
+
+1.4.2     2-27-2005
+--------------------
+
+1)  Fixed "radSystemGetUpTimeSEC" and "radSystemGetUpTimeSTR" so that they 
+    use seconds since the EPOCH instead of milliseconds since the EPOCH - 
+    this was causing the system up time to roll over after ~49 days.
+    
+2)  Added the utility function "radTimeGetSECSinceEpoch" to support
+    storing the system start time in both milliseconds since the EPOCH
+    and seconds since the EPOCH.
+
+
+
+
+1.4.1     12-14-2004
+--------------------
+
+1)  Added an example cross compilation script for the arm-linux target.
+
+2)  Tweaked the build environment to support cross compilation. See
+    the example configure script "config-radlib-arm-linux" for a usage
+    example.
+
+
+
+
+1.4.0     11-30-2004
+--------------------
+
+1)  Converted radlib to the GNU autoconf/automake paradigm.
+    
+    Now the package is built as follows:
+    #./configure
+    #make
+    #make install
+
+    The library and headers are installed in /usr/local/bin 
+    and /usr/local/include by default, although the prefix 
+    (/usr/local) can be changed when "configure" is invoked.
+    
+    make.config, rules.make, and Makefile has been removed from
+    the distro. The "configure" script generates the build files
+    based on the host platform.
+
+2)  Removed BSD precompilation check for sem set size and
+    defaulted it to 16.
+
+
+
+1.3.2     11-21-2004
+--------------------
+
+1)  Added the file "make.config" and changed the build environment to
+    utilize it.  Linux or BSD can now be specified as well as the 
+    install location of the library and headers.
+
+2)  Fixed several trivial problems with building on a BSD platform.
+
+3)  Modified events processing so that processes can send events to 
+    themselves.
+
+4)  Added a "pkg" target to the makefile and the file "excludefiles"
+    so that the distro tarball can be built automagically.
+
+
+            
+1.3.1     04-03-2004
+--------------------
+
+1)  Added system up time support. When the first process of a radlib system
+    group calls radSystemInit, the start time is stored. From that point 
+    forward, any process in the radlib system can retrieve the system up
+    time in one of 3 ways:
+        radSystemGetUpTimeMS: returns number of milliseconds since start
+        radSystemGetUpTimeSEC: returns number of seconds since start
+        radSystemGetUpTimeSTR: returns an up time string of the form
+            "Y years, M months, D days, H hours, m minutes, S seconds".
+
+
+
+1.3.0     02-08-2004
+--------------------
+
+1)  First release of GPL version of radlib.
+

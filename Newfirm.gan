@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="" company="" webLink="http://" view-date="2005-07-10" version="1.11">
+    <view zooming-state="default:7"/>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <calendar id="1" name="default">
+                <default-week sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+                <overriden-day-types/>
+                <days/>
+            </calendar>
+        </day-types>
+    </calendars>    <description>    </description>
+
+    <tasks color="#8cb6ce">
+        <task id="19" name="Interface Documentation" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-12" duration="124" complete="14" fixed-start="false" priority="1" expand="false">
+            <task id="20" name="Monsoon&#47;DHS ICD" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="10" complete="90" fixed-start="false" priority="1" expand="false"/>
+            <task id="22" name="AE+QL&#47;DHS Interface" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-09-12" duration="17" complete="0" fixed-start="false" priority="1" expand="false"/>
+            <task id="21" name="Archive&#47;DHS Interface" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-11-01" duration="14" complete="0" fixed-start="false" priority="1" expand="false"/>
+            <task id="33" name="AE&#47;QL User Documentation" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-12-01" duration="22" complete="0" fixed-start="false" priority="1" expand="false"/>
+            <task id="52" name="Misc Design Docs" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-12" duration="10" complete="0" fixed-start="false" priority="1" expand="false">
+                <task id="56" name="Buffer Manager Design" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-12" duration="10" complete="0" fixed-start="false" priority="1" expand="true">
+                    <depend id="9" type="2"/>
+                    <depend id="12" type="2"/>
+                </task>
+            </task>
+        </task>
+        <task id="13" name="Data Capture System" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2004-12-30" duration="189" complete="5" fixed-start="false" priority="2" expand="true">
+            <task id="16" name="DHS&#47;NEWFIRM API" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-12" duration="28" complete="33" fixed-start="false" priority="1" expand="false">
+                <task id="2" name="PseudoCode" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-12" duration="9" complete="66" fixed-start="false" priority="2" expand="false">
+                    <depend id="1" type="2"/>
+                    <depend id="17" type="2"/>
+                </task>
+                <task id="1" name="ICD Document" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-25" duration="5" complete="70" fixed-start="false" priority="0" expand="true">
+                    <depend id="17" type="2"/>
+                </task>
+                <task id="17" name="Implementation&#47;Testing" color="#8cb6ce" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-08-01" duration="14" complete="0" fixed-start="false" priority="2" expand="true">
+                    <depend id="57" type="2"/>
+                </task>
+            </task>
+            <task id="5" name="DHS Supervisor" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-08-01" duration="27" complete="0" fixed-start="false" priority="2" expand="false">
+                <task id="11" name="Design" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-08-01" duration="10" complete="0" fixed-start="false" priority="2" expand="false">
+                    <depend id="12" type="2"/>
+                </task>
+                <task id="12" name="implementation&#47;Testing" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-08-15" duration="17" complete="0" fixed-start="false" priority="2" expand="false">
+                    <depend id="57" type="2"/>
+                </task>
+            </task>
+            <task id="6" name="DCA Collector" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-08-01" duration="27" complete="0" fixed-start="false" priority="2" expand="false">
+                <task id="10" name="Design" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-08-01" duration="10" complete="0" fixed-start="false" priority="2" expand="false">
+                    <depend id="9" type="2"/>
+                </task>
+                <task id="9" name="Implementation&#47;Testing" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-08-15" duration="17" complete="0" fixed-start="false" priority="2" expand="false">
+                    <depend id="57" type="2"/>
+                </task>
+            </task>
+            <task id="69" name="DCA Feed" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-05-17" duration="14" complete="0" fixed-start="false" priority="1" expand="false">
+                <task id="72" name="Shared Mem Interface" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-05-17" duration="4" complete="0" fixed-start="false" priority="1" expand="false"/>
+                <task id="73" name="Pixel Unscrambler" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-05-24" duration="4" complete="0" fixed-start="false" priority="1" expand="false"/>
+                <task id="74" name="RTD Client" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-05-31" duration="4" complete="0" fixed-start="false" priority="1" expand="false"/>
+            </task>
+            <task id="78" name="FITSGenerator&#47;KTM" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-06-20" duration="1" complete="0" fixed-start="false" priority="1" expand="false">
+                <task id="79" name="SIF Generation" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-06-20" duration="1" complete="0" fixed-start="false" priority="1" expand="false"/>
+            </task>
+            <task id="75" name="Runtime MetaData DB" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-03-16" duration="9" complete="0" fixed-start="false" priority="1" expand="false">
+                <task id="77" name="DB Specification" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-03-16" duration="4" complete="0" fixed-start="false" priority="1" expand="false"/>
+                <task id="80" name="DB Implementation" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-03-23" duration="4" complete="0" fixed-start="false" priority="1" expand="false"/>
+            </task>
+            <task id="58" name="Simulators" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-09-01" duration="14" complete="0" fixed-start="false" priority="1" expand="false">
+                <task id="66" name="Simulator Design" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-09-07" duration="2" complete="0" fixed-start="false" priority="1" expand="false">
+                    <depend id="59" type="2"/>
+                    <depend id="60" type="4"/>
+                </task>
+                <task id="59" name="Instrument Simulator" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-09-09" duration="4" complete="0" fixed-start="false" priority="1" expand="false">
+                    <depend id="61" type="2"/>
+                </task>
+                <task id="60" name="DHS Simulator" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-09-01" duration="4" complete="0" fixed-start="false" priority="1" expand="false">
+                    <depend id="61" type="2"/>
+                </task>
+                <task id="61" name="Recovery Simulator" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-09-15" duration="4" complete="0" fixed-start="false" priority="1" expand="false"/>
+            </task>
+            <task id="62" name="Image Display" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2004-12-30" duration="52" complete="0" fixed-start="false" priority="1" expand="false">
+                <task id="64" name="24-bit Support" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2004-12-30" duration="42" complete="0" fixed-start="false" priority="1" expand="false"/>
+                <task id="65" name="Client Display Tools" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-02-11" duration="21" complete="0" fixed-start="false" priority="1" expand="false">
+                    <notes>
+                        Plug-in tools for statistics, display stream proxy&#47;splitter, etc
+                    </notes>
+                </task>
+            </task>
+        </task>
+        <task id="57" name="Delivery" color="#000000" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="true" start="2005-09-07" duration="1" complete="0" fixed-start="false" priority="1" expand="true"/>
+        <task id="8" name="Quick Look Environment" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="false">
+            <task id="28" name="Design" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="false"/>
+            <task id="30" name="Implementation&#47;Testing" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="false"/>
+            <task id="63" name="Control&#47;Monitor GUIs" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="true"/>
+        </task>
+        <task id="3" name="Astronomer Environment" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="20" fixed-start="false" priority="1" expand="false">
+            <task id="24" name="Design" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="60" fixed-start="false" priority="1" expand="false">
+                <task id="36" name="AE&#47;Toolbox Spec" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="100" fixed-start="false" priority="1" webLink="http://chive.tuc.noao.edu/twiki/bin/view/PipelineTeam/NAET00" expand="false"/>
+                <task id="35" name="IRPROC Spec" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="20" fixed-start="false" priority="1" expand="false"/>
+            </task>
+            <task id="25" name="Implementation" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="false">
+                <task id="37" name="NIR Artificial Data Generator" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="false"/>
+                <task id="38" name="IRRED&#47;IRPROC" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="false"/>
+            </task>
+            <task id="26" name="Testing" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2005-07-18" duration="1" complete="0" fixed-start="false" priority="1" expand="false"/>
+        </task>
+        <task id="45" name="Constraints" color="#ff3333" shape="0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1" meeting="false" start="2005-07-25" duration="116" complete="100" fixed-start="false" priority="1" expand="false">
+            <task id="46" name="Travel1" color="#ff3333" shape="0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1" meeting="false" start="2005-07-25" duration="5" complete="100" fixed-start="false" priority="2" expand="false"/>
+            <task id="47" name="NVO Summer School" color="#ff3333" shape="0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1" meeting="false" start="2005-09-06" duration="8" complete="100" fixed-start="false" priority="2" expand="false"/>
+            <task id="48" name="ADASS&#47;IVOA" color="#ff3333" shape="0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1" meeting="false" start="2005-10-03" duration="6" complete="100" fixed-start="false" priority="2" expand="false"/>
+            <task id="50" name="Travel2" color="#ff3333" shape="0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1" meeting="false" start="2005-12-19" duration="11" complete="100" fixed-start="false" priority="2" expand="false"/>
+        </task>
+    </tasks>
+
+    <resources>
+        <resource id="0" name="Mike" function="Default:0" contacts="" phone="" />
+        <resource id="1" name="Nelson" function="Default:0" contacts="" phone="" />
+        <resource id="2" name="Frank" function="Default:0" contacts="" phone="" />
+        <resource id="3" name="Nick" function="Default:0" contacts="" phone="" />
+        <resource id="4" name="Phil" function="Default:0" contacts="" phone="" />
+        <resource id="5" name="Mark D" function="Default:0" contacts="" phone="" />
+        <resource id="6" name="Rob Swaters" function="Default:0" contacts="" phone="" />
+        <resource id="7" name="NSA Team" function="Default:0" contacts="" phone="" />
+        <resource id="8" name="Unknown" function="Default:0" contacts="" phone="" />
+    </resources>
+
+    <allocations>
+        <allocation task-id="20" resource-id="1" load="100.0"/>
+        <allocation task-id="22" resource-id="1" load="100.0"/>
+        <allocation task-id="22" resource-id="2" load="100.0"/>
+        <allocation task-id="21" resource-id="1" load="100.0"/>
+        <allocation task-id="21" resource-id="7" load="100.0"/>
+        <allocation task-id="33" resource-id="1" load="100.0"/>
+        <allocation task-id="33" resource-id="2" load="100.0"/>
+        <allocation task-id="56" resource-id="0" load="100.0"/>
+        <allocation task-id="2" resource-id="0" load="100.0"/>
+        <allocation task-id="1" resource-id="1" load="100.0"/>
+        <allocation task-id="17" resource-id="1" load="100.0"/>
+        <allocation task-id="11" resource-id="0" load="100.0"/>
+        <allocation task-id="12" resource-id="1" load="100.0"/>
+        <allocation task-id="12" resource-id="0" load="50.0"/>
+        <allocation task-id="10" resource-id="0" load="100.0"/>
+        <allocation task-id="9" resource-id="1" load="100.0"/>
+        <allocation task-id="66" resource-id="1" load="100.0"/>
+        <allocation task-id="59" resource-id="1" load="100.0"/>
+        <allocation task-id="60" resource-id="1" load="100.0"/>
+        <allocation task-id="61" resource-id="1" load="100.0"/>
+        <allocation task-id="62" resource-id="0" load="100.0"/>
+        <allocation task-id="64" resource-id="0" load="100.0"/>
+        <allocation task-id="65" resource-id="0" load="100.0"/>
+        <allocation task-id="63" resource-id="0" load="100.0"/>
+        <allocation task-id="63" resource-id="2" load="100.0"/>
+        <allocation task-id="36" resource-id="2" load="100.0"/>
+        <allocation task-id="35" resource-id="5" load="100.0"/>
+        <allocation task-id="35" resource-id="2" load="10.0"/>
+        <allocation task-id="37" resource-id="6" load="100.0"/>
+        <allocation task-id="38" resource-id="2" load="100.0"/>
+        <allocation task-id="46" resource-id="0" load="100.0"/>
+        <allocation task-id="47" resource-id="0" load="100.0"/>
+        <allocation task-id="47" resource-id="2" load="100.0"/>
+        <allocation task-id="48" resource-id="1" load="100.0"/>
+        <allocation task-id="50" resource-id="0" load="100.0"/>
+    </allocations>
+
+
+    <roles roleset-name="Default"/>
+</project>

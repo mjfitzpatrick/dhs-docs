@@ -1,0 +1,1 @@
+cc -I /MNSN/soft_dev/inc/  shmTest.c shmUtil*.c -o shmTest

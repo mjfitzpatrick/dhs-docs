@@ -1,0 +1,61 @@
+NEWFIRM Data Handling System
+
+Planned High Level Deliverables:
+    DHS Client API (Instrument-DHS interface)
+    Data Capture Components
+	Supervisor Layer
+	Data Capture Agents
+	Image Generation Components (Keyword translation, disk images)
+	Messaging System (Data transport w/in DHS)
+    GUI Control Consoles
+	Main DHS Control
+	Quick-Look / Quick Reduce Interaction
+    Data Recovery Tools / Instrument Simulator
+
+Resources:
+    1.4 FTEs
+
+Work accomplished:
+    Re-design of Client API (in progress)
+    Error Recovery Use-Cases (Miller, in progress)
+
+Work plan:
+    DHS Client API Final Design (Feb)
+    Data Recovery/Instrument Simulator (Feb-Mar)
+	Functional DHS from NEWFIRM pov
+	Simulated NEWFIRM from DHS pov
+    Data Capture Components
+	Design (Feb-Mar)
+	Implementation (Apr-Aug)
+    GUI Control Consoles
+	Specification (May)
+	Implementation (Jun-Jul)
+
+---------------------------------------------------------------------------
+
+NEWFIRM Astronomer Environment and Pipelines
+
+Planned High Level Deliverables:
+    Suite of tools for reducing NEWFIRM data
+    Quick-look environment providing instrument and sky performance
+	evaluation
+    Quick-reduce pipeline providing data quality info. and prelim. reductions
+    Science pipeline providing best effort science reductions to archive
+
+Resources:
+    Approximately 3-4 FTEs
+
+Work accomplished:
+    DPP project scientist reduction whitepaper (Dickinson)
+    Quick look and quick reduce functionality (Davis)
+    Pipeline infrastructure alpha-level
+
+Work plan:
+    IR artificial data generator (Jan)
+    Toolbox specification (Jan-Mar)
+    Quick look and quick reduce specifications (Feb-Mar)
+    Toolbox alpha implementation (April-May)
+    Pipeline infrastructure beta-level (March)
+    Alpha pipelines (April)
+    Beta pipelines (August)
+    Beta quick look functionality (August)

@@ -1,0 +1,25 @@
+
+NEWFIRM DHS Status
+
+    o 	Major staffing shakeup after months of little progress
+	mean we're only now just starting design & development
+
+    o	Development Plan 
+	-  Complete design & implementation of DHS interface to
+	   Monsoon/NOCS components.  These include client, server
+	   and supervisor levels which provide basic data transport
+	   and communication to/from the DHS
+	-  Implement data-side "last-resort" disk storage format and
+	   recovery procedure.  Recovering failed transfers will
+	   simulate data feed from instrument, providing independent
+	   means (i.e. dummy feed) for testing/development of DHS
+	-  Implement minimal DHS-side functionality (e.g. write MEF
+	   to disk) to provide a "complete" system as far as NEWFIRM
+	   software is concerned and close the loop between instrument
+	   and DHS development.
+	-  Expect working lab system by end of calendar year
+
+        -  Simultaneously:
+	   -  Flesh-out design of full DHS, Quick Look, Quick Reduce, 
+	      pipeline, archive and astronomer interfaces
+	   -  Implementation to proceed start of calendar 05

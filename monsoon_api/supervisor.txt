@@ -1,0 +1,8 @@
+Supervisor responsibilities
+---------------------------
+   * Startup and shutdown Collectors
+   * Schedule work (client requests) to Collectors
+   * Monitor health and workload of Collectors
+   * Verify receipt of all parts of focal plane for exposure
+   * Verify receipt of all exposures within the planned observation set
+   *

@@ -1,0 +1,91 @@
+
+     smc = shmInit ()
+     shm = shmOpen (key)
+          shmClose (shm)
+  bool = shmExists ()
+
+    shmId = shmAlloc (sem_id)
+	  shmFree ()
+	shmAttach ()
+	shmDetach ()
+
+       shmDestroy ()
+
+  key_t memKey = segInit (char *libName, int *new );
+  void *addr = segAttach (char *libName, int *create, long size );
+               segDetach (char *libName, void *address);
+               segUninit (char *libName );
+
+           ulong segSize (ulong *inSize, ulong inUnit);
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+
+Features:
+
+   - exclusive access locking
+	semaphore or mutex thread
+   - mlock() for paging protection
+       - allocate / align system pages
+
+
+struct shmMaster{ 
+    int	  nsegments	
+    int	  npages
+    long  mem_used
+}
+
+struct shmRecord {
+    int    type			META, DATA, OTHER
+    int    status		LOCKED | ATTACHED
+    int    refcount		
+    void  *addr
+}
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Segment
+    - allocated as requested size on page-aligned boundary plus
+	header struct
+    - shared memory block
+    - lockable with mlock()
+    - mutex to provide exclusive access
+    - refcount
+
+
+#define SEG_TYPE_META	0
+#define SEG_TYPE_DATA	1
+#define SEG_TYPE_OTHER	2
+
+
+typedef struct  {
+    Cache  *cache;		/* backpointer to segment cache		*/
+    key_t  shmid;		/* Segment shared mem id key		*/
+    int    type;		/* Segment type (META, DATA, OTHER)	*/
+
+    int    locked;		/* Is Segment locked for access?	*/
+    int    nattched;		/* No. of attached processed		*/
+    int    refcount		/* reference count			*/
+
+    ulong  size;		/* Size of ser data (bytes)		*/
+    void   *addr;		/* User data start address		*/
+
+    ulong  who;			/* who sent the data			*/
+    double expID		/* exposure ID				*/
+    char   *obsetID		/* observation set ID			*/
+
+    struct mdConfig {		/* Metadata config structure		*/
+        ulong metaType;         /* conceptual type of the meta data 	*/
+        ulong numFields;        /* no. fields in the meta data array 	*/
+        ulong fieldSize[DHS_MAXFIELDS]; /* number of items in the field */
+        ulong dataType[DHS_MAXFIELDS];  /* data type of the fields 	*/ 
+    }
+
+    struct fpConfig {		/* focal plane configuration		*/
+        ulong xSize, ySize 	/* number of cols/rows			*/
+        ulong xStart, yStart; 	/* col/row index of 1st pixel 		*/
+        long dataType; 		/* data type of the pixels (nbytes) 	*/
+    }
+} Segment, *SegmentPtr;

@@ -1,0 +1,124 @@
+Nick et al.,
+
+I think we should be more explicit in the ICD. First I would define a message 
+header structure that *must* preceed every message sent out of the system to 
+the DHS (pixel data and meta data):
+
+  /* define message header structure                         */
+  typedef struct dhsMsgFmt_str {
+   int    ut;          /* UT date in form yyyymmdd           */
+   int    obsid;       /* observation id                     */
+   double mst;         /* MONSOON standard time              */
+   char   dtype;       /* data type                          */
+   int    nelms;       /* number of elements of data type    */
+   char   mtype;       /* message type                       */
+   int    arrid[2];    /* array id (0=position, 1=naxes)     */
+   int    dims[2];     /* array dimensions (0=x, 1=y)        */
+   int    resend;      /* resend count                       */
+   int    protocol;    /* protocol version/type              */
+   int    ipsrc;       /* address of source in form a.b.c.d  */
+   int    ipdes;       /* address of target in form a.b.c.d  */
+   int    crc;         /* header crc                         */
+   char   pad[6]       /* padding to get to 4-byte boundary  */
+ } dhsMsg_t, *dhsMsg_p, **dhsMsg_s;
+
+This makes a 64-byte header which is small enough for us not
+to care too much about overhead. We can define known values:
+
+  /* define array types                                      */
+  #define DHS_FULL_ARR       0x00 /* all segments            */
+  #define DHS_UL_ARR         0x01 /* upper-left segment      */
+  #define DHS_UR_ARR         0x02 /* upper-right segment     */
+  #define DHS_LL_ARR         0x03 /* lower-left segment      */
+  #define DHS_LR_ARR         0x04 /* lower-right segment     */
+  /* define message types                                    */
+  #define DHS_NULL_MSG       0x00 /* null message            */
+  #define DHS_CONTROL_MSG    0x01 /* control message         */
+  #define DHS_KEYWORD_MSG    0x02 /* keyword message         */
+  #define DHS_EVENT_MSG      0x03 /* event message           */
+  #define DHS_PIXELDATA_MSG  0x04 /* pixel data message      */
+  #define DHS_METADATA_MSG   0x05 /* meta data message       */
+  #define DHS_FDB_MSG        0x06 /* fixed data message      */
+  /* define data types                                       */
+  #define DHS_NULL_TYPE      0x00 /* null type               */
+  #define DHS_CHAR_TYPE      0x01 /* character type          */
+  #define DHS_UCHAR_TYPE     0x02 /* unsigned character type */
+  #define DHS_SHORT_TYPE     0x03 /* short type              */
+  #define DHS_USHORT_TYPE    0x04 /* unsigned short type     */
+  #define DHS_INT_TYPE       0x05 /* int type                */
+  #define DHS_UINT_TYPE      0x06 /* unsigned int type       */
+  #define DHS_LONG_TYPE      0x07 /* long type               */
+  #define DHS_ULONG_TYPE     0x08 /* unsigned long type      */
+  #define DHS_LLONG_TYPE     0x09 /* long long type          */
+  #define DHS_ULLONG_TYPE    0x0A /* unsigned long long type */
+  #define DHS_FLOAT_TYPE     0x0B /* float type              */
+  #define DHS_DOUBLE_TYPE    0x0C /* double type             */
+  #define DHS_STRING_TYPE    0x0D /* string type             */
+  /* define potocol types                                    */
+  #define DHS_NULL_PROTOCOL  0x00 /* null protocol           */
+  #define DHS_TCP_PROTOCOL   0x01 /* tcp protocol            */
+  #define DHS_UDP_PROTOCOL   0x02 /* udp protocol            */
+  #define DHS_RS232_PROTOCOL 0x03 /* rs232 protocol          */
+  #define DHS_ETH_PROTOCOL   0x04 /* ethernet protocol       */
+  #define DHS_BLAST_PROTOCOL 0x0B /* blast protocol          */
+  /* define some useful macros                               */
+  #define DHS_MSG_SZ sizeof(dhsMsg_t)
+  #define IP_ADDR(a,b,c,d) (((a)<<24)+((b)<<16)+((c)<<8)+((d)))
+ 
+Thus, to send *pixel* data for the upper right-hand quadrant, we use:
+
+  /* include the MONSOON time functions */
+  #include "jd.h"
+
+  /* declare some variables and initialize them */
+  struct tm gd;
+  dhsMsg_t dhsMsgHdr;
+
+  /* clear the header then fill in the pieces */
+  (void) memset((void *)&dhsMsgHdr,0,DHS_MSG_SZ);
+  dhsMsgHdr.ut       = 20031207;
+  dhsMsgHdr.obsid    = 1;
+  dhsMsgHdr.mst      = gd2md(TRUE,&gd);
+  dhsMsgHdr.dtype    = DHS_INT_TYPE;
+  dhsMsgHdr.nelms    = 2048 * 2048;
+  dhsMsgHdr.mtype    = DHS_PIXELDATA_MSG;
+  dhsMsgHdr.arrid[0] = DHS_UR_ARR;
+  dhsMsgHdr.arrid[1] = 2;
+  dhsMsgHdr.dims[0]  = 2048;
+  dhsMsgHdr.dims[1]  = 2048;
+  dhsMsgHdr.resend   = 0;
+  dhsMsgHdr.protocol = DHS_BLAST_PROTOCOL;
+  dhsMsgHdr.ipsrc    = IP_ADDR(140,252,23,48);
+  dhsMsgHdr.ipdes    = IP_ADDR(140,252,23,96);
+  dhsMsgHdr.crc      = calcCRC(&dhsMsgHdr);
+
+and follow it with the pixel data block. To send a FITS header:
+
+  (void) memset((void *)&dhsMsgHdr,0,DHS_MSG_SZ);
+  dhsMsgHdr.ut       = 20031207;
+  dhsMsgHdr.obsid    = 2;
+  dhsMsgHdr.mst      = gd2md(TRUE,&gd);
+  dhsMsgHdr.dtype    = DHS_CHAR_TYPE;
+  dhsMsgHdr.nelms    = 2880;
+  dhsMsgHdr.mtype    = DHS_METADATA_MSG;
+  dhsMsgHdr.arrid[0] = DHS_FULL_ARR;
+  dhsMsgHdr.arrid[1] = 2;
+  dhsMsgHdr.dims[0]  = 2048;
+  dhsMsgHdr.dims[1]  = 2048;
+  dhsMsgHdr.resend   = 0;
+  dhsMsgHdr.protocol = DHS_BLAST_PROTOCOL;
+  dhsMsgHdr.ipsrc    = IP_ADDR(140,252,23,48);
+  dhsMsgHdr.ipdes    = IP_ADDR(140,252,23,96);
+  dhsMsgHdr.crc      = calcCRC(&dhsMsgHdr);
+
+and follow it with the 2880-byte FITS header block.
+
+Also the API, should consist of the following routines only:
+
+(void) dhsOpen  (long *istat,char *resp,dhsHandle *hdl);
+(void) dhsClose (long *istat,char *resp,dhsHandle hdl);
+(void) dhsRead  (long *istat,char *resp,dhsHandle hdl,dhsData *ptr,size_t len);
+(void) dhsWrite (long *istat,char *resp,dhsHandle hdl,dhsData *ptr,size_t len);
+(void) dhsIoctl (long *istat,char *resp,dhsHandle hdl,dhsIOCnum, ... );
+
+P 

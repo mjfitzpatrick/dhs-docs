@@ -1,0 +1,79 @@
+Hi Guys,
+
+	I have some thoughts following today's meetings but I'll preface
+my comments by reminding you I've been out of this project quite a while
+so I may be covering old ground and apologize in advance.
+
+	Firstly, I think it's a mistake to just name a protocol/dest/size
+for the data at this point.  By doing so
+
+	- you make a technology decision now and require that not only 
+	  does Nick have to rewrite his code should that ever change
+	  but you have to live w/ what that protocol provides and change
+	  *our* code eventually as well.
+	- BLAST???  I google'd it and came up with a Windows file transfer
+	  system supporting xmodem/zmodem and AT&T SysV or citations to 
+	  a 10+ year-old system, what are you talking about here?  What's
+	  the API URL you'll give Nick about what he should implement?  Are
+	  you really ready to make this decision?
+	- I didn't get the impression you were even clear about what the
+	  architecture of the DHS would be: has it been decided the streams
+	  would be parallel?  How are "shared" (meta)data going to handled?
+	  Has there also been a decision about what the DHS hardware side
+	  will look like?  Can this accomodate a lab/testing setup?  Are
+	  pixels and tcs/ics data to be handled the same way?  Do you want
+	  event data (e.g shutter open/close)?
+
+Am I wrong in inferring there are still questions about what the DHS itself
+(whether NEWFIRM-specific or generic) will look like?  If so, what is the
+current thinking on this?
+
+	If there are still big decisions to be made I think a better short-
+term approach *is* to define both the client (monsoon/newfirm) and server
+("dhs") sides of the communications.  Even if you specify a protocol and
+punt to Nick to write it you still need to specify the data structures/format
+to be used to handle array pixels, telemetry and other metadata so you 
+can receive it.  Why not define a generalized API for both ends (Nick's
+ICD 1.0 shouldn't be far off) and implement a prototype communication 
+protocol using whatever you like?  
+
+	- If the protocol needs to be changed you just reimplement the API:
+	  monsoon/newfirm work w/out change and anyone wanting to write a
+	  new DHS just has to conform to the API to get the data.
+	- You buy yourself isolation from the controller and can build a
+	  DHS that knows only about generic 'instrument', 'telescope', 
+	  'metadata' or etc objects which can be recycled for the next 
+	  instrument through config changes to the DHS only.
+
+
+Conceptually this is a very easy thing to think about:
+
+	1) We have data publishers (telescope, instruments, etc)
+	       - they have pixels and telemetry
+	       - they may have various configs/attrs
+	2) We have a way to get that info from A to B
+	       - the basic communication protocol
+	       - should be flexible
+	3) We have somebody (the DHS) that will do something w/ the
+	   info on the remote end
+	        - QL/QR, archiving, RT display, pipelines, etc
+	        - might be something we don't do
+
+It seems totally ass-backwards to be defining the smallest part of this,
+(2), so that it bends (1) and (3) to it's constraints.  This is true whether
+we're talking of a custom NEWFIRM or a generalized MONSOON.  This is three
+projects where Nick/Phil have done (1), we will/have(??) defined (3) and the
+only middle ground is (2) and I think that should be as flexible as possible.  
+If we don't have the DHS defined what the hell are we doing specifying how
+the data are sent?  What am I missing here?
+	
+	You could do a lot worse than even the current Mosaic DCA API for 
+specifying the data transport (and "calling it BLAST" *is* worse).  Today's
+meeting could have gone better if you could say the "NEWFIRM DHS expects
+XXXX' but is there even that level of detail ready (where?).  Sorry, but
+I left today thinking this was all being made up on the fly, what *is*
+the current NEWFIRM/MONSOON DHS plan and where can I look for info to catch
+up on how this all fits together?
+
+
+-Mike

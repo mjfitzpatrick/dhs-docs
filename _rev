@@ -1,0 +1,68 @@
+
+
+NEWFIRM Recipe Book						9/18/04
+
+
+    -   Does Table 1 define the *only* volatile metadata DHS can 
+	expect?  E.g. will the pre/post observation metadata contain
+	the same UT value or can the difference be used to compute a
+	UT-midpoint value?
+
+    -	If RA/DEC keywords describes target pos, what keywords describe
+	the telescope pointing ra/dec?  From Table 6 appears to be ALT/AZ,
+	and e.g. RAOFF/RAINST/RAZERO/RADIFF not filled in (are these
+	offsets only or should at least one value have the telescopt
+	pointing)?.  
+
+    -   metadata in Table 5-8 described as being 32-32-64 char colums.  
+	For AVPAIR metadata from ICD 1.0 its 64-64-128 chars.
+	Is this really a difference ??	Does there need to be ??
+
+    -	Observe.EXEC defined as {
+		nohs_newobs
+		gpxStartExp
+		nohs_endobs
+	    }
+
+	What is Dither.EXEC (used in e.g. MODMAPRICH recipe)?  Guessing
+	it's
+		foreach Dpos in Dpat { do n Observe.EXEC }
+
+    -	Table 1 and Table 5 
+	  - map/dither offset keywords:  Are these offset from last
+	    position, target, center of 1st image in sequence or what?
+
+	  - Are NAXIS[12] keywords accurate (i.e. account for binning
+	    or ROI readouts)?
+	  - Why is EXTEND present?
+	  - Will BITPIX be correct?
+
+	  - NFOBSTIM - assume it's exposure time in sec?  What if time
+	    is changed mid-observation, should only post-readout value 
+	    be used?
+
+	  - NFOBSFIL described as "filter set" and example value is "[CD]"
+	    Are square brackets implying filter 'C' and 'D' or is 'CD' the
+	    name of one filter?  Text implies latter, but recipe commands
+	    seem to only take a single char (doc says int) to -F flag?
+	    Are brackets significant?
+
+	  - NFOBSDHS - described as recipe for data handling but example is
+	    name of observing recipe.  Does this prescribe a particular
+	    reduction recipe or merely suggest one based on how data were
+	    observed?
+
+	  - NFOBSNUM/NFOBSID/NFOBSTOT -- Will these be the actual total of
+	    exposures computed from combination of dither/map/filter sequence
+	    meaning DHS doesn't have to compute these?
+
+	  - NFGC1CCD etc keywords list CCD temp as 273 Celsius - should 
+	    either be Kelvin or else might explain poor IR performance
+	   
+    -	Table 5-8: 
+	  - Which keywords go to global header?
+	  - Which keywords go to image extn header?
+	  - Which keywords go to table extn of leftovers?
+	  - keyword name mappings?
+
+    - Reference #3 has wrong URL, should be ...1.0.0.txt (not ...1.0.1.txt)

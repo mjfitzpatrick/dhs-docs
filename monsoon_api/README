@@ -1,0 +1,32 @@
+This is an implementation of the Monsoon to DHS API that implements
+dhsSendPixelData() and dhsSendMetaData(), but it simply writes the data 
+it receives to a file that is named by using obs_id concatenated with 
+monsoon star date (exposure id).  It prepends the metadata to the first of
+the file.  Relevant files are proto.c (implements dhsSendPixelData()) and
+send_meta.c and proto_driver.c, although the Monsoon dhsUtil.h is also
+needed.
+
+g++ -fpic -c send_meta.c send_pixel.c
+g++ -shared -o libdhs.so send_meta.o send_pixel.o
+g++ proto_driver.c -L. -ldhs -o driver
+
+User must set LD_LIBRARY_PATH to fullpath to libdhs.so.
+****************************************************************************
+Full API implementation
+-----------------------
+int dhsSysOpen (long *status, char *response, int numInstances);
+
+g++ -g -fpic -c dhsSysOpen.c
+g++ -shared -o libdhs.so dhsSysOpen.o
+g++ -g driver.c -L. -ldhs -o driver
+
+To run this driver, one must start the supervisor on the machine specified
+in the environment variable DHS_SUPERVISOR. Also, it is not required, but 
+preferrable to set up SSH tunneling to avoid needing to enter a passwd.
+In addition, you must alter your .cshrc $PATH to include the directory 
+where the executables live for each machine you wish to run Collectors on.
+
+g++ collector.cc dhs_util.c -o collector
+
+g++ -fpic -c farm.cc
+g++ supervisor.c farm.o -o supervisor
